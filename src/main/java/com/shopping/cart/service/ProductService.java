@@ -8,7 +8,10 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.Arrays;
+import java.util.List;
+import java.util.Map;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 @Component
 public class ProductService {
@@ -16,7 +19,7 @@ public class ProductService {
     @Autowired
     private RestTemplate restTemplate;
 
-    String baseUrl = "lb://product/";
+    String baseUrl = "http://PRODUCT-SERVICE/";
     String getQuantityUrl = "products/count/";
     public int getProductCount(int productId)
     {
@@ -36,7 +39,7 @@ public class ProductService {
                         HttpStatus.INTERNAL_SERVER_ERROR);
             }
         } catch (Exception e){
-           throw new ProductServiceException("Unsuccessful response from product service",
+            throw new ProductServiceException("Unsuccessful response from product service",
                     HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
@@ -50,5 +53,13 @@ public class ProductService {
     public boolean validProduct(Cart newCart) {
         int productCount = getProductCount(newCart.getProductId());
         return productCount>= newCart.getProductQuantity()?true:false;
+    }
+
+    public void updateProductQuantity(List<Cart> items) {
+
+        StringBuilder url = new StringBuilder(baseUrl).append("/products/updateQuantity");
+
+        Map<Integer, Integer> productQuantityMap = items.stream().collect(Collectors.toMap(Cart::getProductId, Cart::getProductQuantity));
+        restTemplate.put(url.toString(), productQuantityMap);
     }
 }
