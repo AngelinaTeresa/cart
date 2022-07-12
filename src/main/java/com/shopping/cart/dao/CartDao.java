@@ -35,6 +35,5 @@ public class CartDao {
 
     public List<Integer> getCartPrice(int userId) {
         return cartRepository.getCartPrice(userId);
-      //  return null;
     }
 }
