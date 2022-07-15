@@ -24,9 +24,7 @@ public class CartService {
     ProductService productService;
 
     public void addToCart(Cart newCart){
-        if(!productService.validProduct(newCart)){
-            throw new ProductServiceException("Product is currently unavailable", HttpStatus.NOT_ACCEPTABLE);
-        }
+
         List<Cart> cartList = cartDao.getCart(newCart.getUserId());
         Optional<Cart> cart = cartList.stream().filter
                         (item -> item.getProductId() == newCart.getProductId()).findFirst();
@@ -35,11 +33,19 @@ public class CartService {
             Cart item = cart.get();
             item.setProductQuantity(item.getProductQuantity()+newCart.getProductQuantity());
             item.setTotalProductPrice(item.getTotalProductPrice()+ productPrice);
-            cartDao.addToCart(item);
+            addItemToCart(item);
+
         } else{
             newCart.setTotalProductPrice(productPrice);
-            cartDao.addToCart(newCart);
+            addItemToCart(newCart);
         }
+    }
+
+    private void addItemToCart(Cart item) {
+        if(!productService.validProduct(item)){
+            throw new ProductServiceException("Product is currently unavailable", HttpStatus.NOT_ACCEPTABLE);
+        }
+        cartDao.addToCart(item);
     }
 
     public List<Cart> getCart(int userId){

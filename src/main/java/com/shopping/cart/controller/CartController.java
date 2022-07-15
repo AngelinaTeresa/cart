@@ -26,7 +26,7 @@ public class CartController {
     @PostMapping("/addItem")
     public ResponseEntity addToCart(@RequestBody Cart cart){
         cartService.addToCart(cart);
-    return new ResponseEntity(cart,HttpStatus.OK);}
+    return new ResponseEntity("Added item to Cart",HttpStatus.OK);}
 
     @DeleteMapping("/deleteItem/{cartId}")
     public ResponseEntity deleteItem(@PathVariable int cartId) throws CartServiceException {
