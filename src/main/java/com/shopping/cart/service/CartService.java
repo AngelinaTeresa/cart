@@ -92,6 +92,7 @@ public class CartService {
         if(unavailableItems.isEmpty()){
             deleteCart(userId);
             //update product db
+            productService.updateProductQuantity(items);
         }
         else {
             throw new CheckOutException("Few items are currently unavailable. Please review the cart", HttpStatus.INTERNAL_SERVER_ERROR,
