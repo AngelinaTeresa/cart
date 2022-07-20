@@ -16,7 +16,7 @@ public class ProductService {
     @Autowired
     private RestTemplate restTemplate;
 
-    String baseUrl = "http://localhost:8090/";
+    String baseUrl = "lb://product/";
     String getQuantityUrl = "products/count/";
     public int getProductCount(int productId)
     {
