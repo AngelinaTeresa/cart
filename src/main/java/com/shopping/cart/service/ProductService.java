@@ -1,7 +1,7 @@
 package com.shopping.cart.service;
 
 import com.shopping.cart.exception.ProductServiceException;
-import com.shopping.cart.model.Cart;
+import com.shopping.cart.entity.Cart;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.*;
 import org.springframework.stereotype.Component;
@@ -51,7 +51,7 @@ public class ProductService {
     }
 
     public boolean validProduct(Cart newCart) {
-        int productCount = getProductCount(newCart.getProductId());
+        int productCount = getProductCount(newCart.getCartId().getProductId());
         return productCount>= newCart.getProductQuantity()?true:false;
     }
 
@@ -59,7 +59,8 @@ public class ProductService {
 
         StringBuilder url = new StringBuilder(baseUrl).append("/products/updateQuantity");
 
-        Map<Integer, Integer> productQuantityMap = items.stream().collect(Collectors.toMap(Cart::getProductId, Cart::getProductQuantity));
+        Map<Integer, Integer> productQuantityMap = items.stream().collect(Collectors.
+                toMap(p-> p.getCartId().getProductId(), Cart::getProductQuantity));
         restTemplate.put(url.toString(), productQuantityMap);
     }
 }

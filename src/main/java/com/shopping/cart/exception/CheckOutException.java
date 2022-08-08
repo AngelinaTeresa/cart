@@ -1,6 +1,6 @@
 package com.shopping.cart.exception;
 
-import com.shopping.cart.model.Cart;
+import com.shopping.cart.entity.Cart;
 import org.springframework.http.HttpStatus;
 
 import java.util.List;

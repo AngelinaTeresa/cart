@@ -4,7 +4,7 @@ import com.shopping.cart.dao.CartDao;
 import com.shopping.cart.exception.CartServiceException;
 import com.shopping.cart.exception.CheckOutException;
 import com.shopping.cart.exception.ProductServiceException;
-import com.shopping.cart.model.Cart;
+import com.shopping.cart.entity.Cart;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -25,9 +25,9 @@ public class CartService {
 
     public void addToCart(Cart newCart){
 
-        List<Cart> cartList = cartDao.getCart(newCart.getUserId());
+        List<Cart> cartList = cartDao.getCart(newCart.getCartId().getUserId());
         Optional<Cart> cart = cartList.stream().filter
-                        (item -> item.getProductId() == newCart.getProductId()).findFirst();
+                        (item -> item.getCartId().getProductId() == newCart.getCartId().getProductId()).findFirst();
         int productPrice = newCart.getProductPrice() * newCart.getProductQuantity();
         if(cart.isPresent()) {
             Cart item = cart.get();

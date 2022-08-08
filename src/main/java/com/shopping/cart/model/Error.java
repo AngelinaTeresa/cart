@@ -1,6 +1,7 @@
 package com.shopping.cart.model;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.shopping.cart.entity.Cart;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 

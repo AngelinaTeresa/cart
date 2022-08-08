@@ -1,6 +1,6 @@
 package com.shopping.cart.dao;
 
-import com.shopping.cart.model.Cart;
+import com.shopping.cart.entity.Cart;
 import com.shopping.cart.repository.CartRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -18,7 +18,7 @@ public class CartDao {
     }
 
     public List<Cart> getCart(int userId){
-        return cartRepository.findByUserId(userId);
+        return cartRepository.findByCartIdUserId(userId);
     }
 
     public Cart getCartItem(int cartId){

@@ -1,4 +1,4 @@
-package com.shopping.cart.model;
+package com.shopping.cart.entity;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -13,11 +13,8 @@ import javax.persistence.*;
 @Table(name="Cart")
 public class Cart {
 
-    @Id
-    @GeneratedValue(strategy= GenerationType.IDENTITY)
-    int cartId;
-    int userId;
-    int productId;
+    @EmbeddedId
+    CartId cartId;
     String productName;
     int productQuantity;
     int productPrice;

@@ -2,7 +2,8 @@ package com.shopping.cart.controller;
 
 import com.shopping.cart.exception.CartServiceException;
 import com.shopping.cart.exception.ProductServiceException;
-import com.shopping.cart.model.Cart;
+import com.shopping.cart.entity.Cart;
+import com.shopping.cart.repository.CartRepository;
 import com.shopping.cart.service.CartService;
 import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
 import io.github.resilience4j.ratelimiter.annotation.RateLimiter;
@@ -23,6 +24,7 @@ public class CartController {
     @Autowired
     CartService cartService;
 
+
     @GetMapping("/getCart/{userId}")
     public ResponseEntity getCart(@PathVariable int userId){
         List<Cart> cart = cartService.getCart(userId);
@@ -34,7 +36,7 @@ public class CartController {
     @Retry(name = CART_SERVICE )
     @RateLimiter(name = CART_SERVICE)
     public ResponseEntity addToCart(@RequestBody Cart cart){
-        cartService.addToCart(cart);
+       cartService.addToCart(cart);
     return new ResponseEntity("Added item to Cart",HttpStatus.OK);}
 
     @DeleteMapping("/deleteItem/{cartId}")
